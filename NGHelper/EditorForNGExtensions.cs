@@ -12,41 +12,27 @@ namespace NGHelper
 {
     public static class EditorForNGExtensions
     {
-        public static MvcHtmlString NgValFor<TModel, TProperty>
-            (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
+        public static MvcHtmlString TextBoxForNG<TModel, TProperty>
+                (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
-            return NgValFor(htmlHelper, expression, new RouteValueDictionary());
-        }
-
-        public static MvcHtmlString NgValFor<TModel, TProperty>
-            (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,
-            object htmlAttributes)
-        {
-            return NgValFor(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return TextBoxForNG(htmlHelper, expression, new RouteValueDictionary());
         }
 
         public static MvcHtmlString TextBoxForNG<TModel, TProperty>
-            (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
+                (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,
+                object htmlAttributes)
         {
-            ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
-            var name = ExpressionHelper.GetExpressionText(expression);
-
-            //var validatorMessages = validations.ToDictionary(k => k.ValidationType, v => v.ErrorMessage);
-
-            var htmlAttributeDictionary = HtmlAttributesForNG(metadata, name, null);
-            return htmlHelper.TextBoxFor(expression, htmlAttributeDictionary);
+            return TextBoxForNG(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         public static MvcHtmlString TextBoxForNG<TModel, TProperty>
-            (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel,
-            TProperty>> expression, object htmlAttributes)
+                (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,
+                IDictionary<string, object> htmlAttributes)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             var name = ExpressionHelper.GetExpressionText(expression);
 
             var htmlAttributeDictionary = (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
-
-            //var validatorMessages = validations.ToDictionary(k => k.ValidationType, v => v.ErrorMessage);
 
             htmlAttributeDictionary = HtmlAttributesForNG(metadata, name, htmlAttributeDictionary);
             return htmlHelper.TextBoxFor(expression, htmlAttributeDictionary);
@@ -90,9 +76,7 @@ namespace NGHelper
                     default:
                         break;
                 }
-
                 //ng-pattern="/a-zA-Z/"
-
             }
             htmlAttributes.Add("ng-model", metadata.PropertyName);
             return htmlAttributes;
