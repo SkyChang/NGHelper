@@ -20,52 +20,17 @@ namespace NGHelper.Test
         // TextBoxFor
 
         [Fact]
-        public void TextBoxForNGWithNullExpressionThrows()
+        public void TextBoxForNGWithExpression()
         {
             // Arrange
             HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
-            //// Act
-            MvcHtmlString html2 = helper.TextBoxForNG(m => m.foo);
-
-            Assert.Equal("1", "1");
-
-            //// Assert
-            ////Assert.Equal(@"<input id=""foo"" name=""foo"" type=""text"" value=""ViewItemFoo"" />", 
-            ////    html.ToHtmlString());
-
-            //Arrange
-            //var context = new ViewContext();
-            //var dataMock = new Mock<IViewDataContainer>();
-            //ModelState state = new ModelState();
-            //var list = new List<SelectListItem> { new SelectListItem { Text = "Joe", Value = "1" } };
-            //state.Value = new ValueProviderResult(list, "1", CultureInfo.CurrentCulture);
-            //ViewDataDictionary data = new ViewDataDictionary();
-            //data.ModelState.Add("Name", state);
-            //data["Name"] = list;
-            //dataMock.Setup(d => d.ViewData).Returns(data);
-            //HtmlHelper helper = new HtmlHelper(context, dataMock.Object);
-
-
-            //// Act 
-            //helper.TextBox("123");
-
-            // Assert
-            //Assert.IsNotNull(html);
-            //Assert.IsTrue(html.StartsWith("<select"));
-        }
-
-        [Fact]
-        public void TextBoxForWithPrefix()
-        {
-            // Arrange
-            HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
-            //helper.ViewContext.ViewData.TemplateInfo.HtmlFieldPrefix = "MyPrefix";
-
+            
             // Act
-            MvcHtmlString html = helper.TextBoxFor(m => m.foo);
-            Assert.Equal("1", "1");
+            MvcHtmlString html = helper.TextBoxForNG(m => m.foo);
+            
             // Assert
-            //Assert.Equal(@"<input id=""MyPrefix_foo"" name=""MyPrefix.foo"" type=""text"" value=""ViewItemFoo"" />", html.ToHtmlString());
+            Assert.Equal(@"<input id=""foo"" name=""foo"" ng-model=""foo"" type=""text"" value=""ViewItemFoo"" />", 
+                html.ToHtmlString());
         }
 
         // MODELS
