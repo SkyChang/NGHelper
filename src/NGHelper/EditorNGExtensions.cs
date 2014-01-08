@@ -10,19 +10,21 @@ using System.Web.Mvc.Html;
 
 namespace NGHelper
 {
-    public static class EditorForNGExtensions
+    public static class EditorNGExtensions
     {
         public static MvcHtmlString TextBoxForNG<TModel, TProperty>
-                (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
+              (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
         {
-            return TextBoxForNG(htmlHelper, expression, new RouteValueDictionary());
+            return htmlHelper.TextBoxForNG(expression, null);
         }
 
         public static MvcHtmlString TextBoxForNG<TModel, TProperty>
                 (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,
                 object htmlAttributes)
         {
-            return TextBoxForNG(htmlHelper, expression, HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
+            return htmlHelper.TextBoxForNG(expression,
+                ((IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes)));
+                //HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes));
         }
 
         public static MvcHtmlString TextBoxForNG<TModel, TProperty>
@@ -32,10 +34,7 @@ namespace NGHelper
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             var name = ExpressionHelper.GetExpressionText(expression);
 
-            var htmlAttributeDictionary = (IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes);
-
-            htmlAttributeDictionary = HtmlAttributesForNG(metadata, name, htmlAttributeDictionary);
-            return htmlHelper.TextBoxFor(expression, htmlAttributeDictionary);
+            return htmlHelper.TextBoxFor(expression, HtmlAttributesForNG(metadata,name, htmlAttributes));
         }
 
         private static IDictionary<string, object> HtmlAttributesForNG(ModelMetadata metadata,

@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGHelper", "NGHelper\NGHelper.csproj", "{8ACC799C-76E7-42FE-8E64-7E3EB2D62DBF}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGHelper", "src\NGHelper\NGHelper.csproj", "{8ACC799C-76E7-42FE-8E64-7E3EB2D62DBF}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NGHelper.Test", "test\NGHelper.Test\NGHelper.Test.csproj", "{8E2BF315-5431-4B0F-A39B-598BE984FF3D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{8ACC799C-76E7-42FE-8E64-7E3EB2D62DBF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8ACC799C-76E7-42FE-8E64-7E3EB2D62DBF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8ACC799C-76E7-42FE-8E64-7E3EB2D62DBF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8E2BF315-5431-4B0F-A39B-598BE984FF3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8E2BF315-5431-4B0F-A39B-598BE984FF3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8E2BF315-5431-4B0F-A39B-598BE984FF3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8E2BF315-5431-4B0F-A39B-598BE984FF3D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
