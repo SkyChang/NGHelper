@@ -13,25 +13,104 @@ using System.IO;
 using System.Collections.Generic;
 using System.Globalization;
 
+
 namespace NGHelper.Test
 {
-    public class EditorNGExtensionsTest
+    public class InputNGExtensionsTest
     {
+        //TEXTBOX
+        private static readonly RouteValueDictionary _attributesDictionary = new RouteValueDictionary(new { baz = "BazValue" });
+        private static readonly object _attributesObjectDictionary = new { baz = "BazObjValue" };
+        private static readonly object _attributesObjectUnderscoresDictionary = new { foo_baz = "BazObjValue" };
+
+
+
         // TextBoxFor
 
+        //[Fact]
+        //public void TextBoxForWithNullExpressionThrows()
+        //{
+        //    // Arrange
+        //    HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
+
+        //    // Act & Assert
+        //    Assert.ThrowsArgumentNull(
+        //        () => helper.TextBoxFor<FooBarModel, object>(null /* expression */),
+        //        "expression"
+        //        );
+        //}
+
         [Fact]
-        public void TextBoxForNGWithExpression()
+        public void TextBoxForNGWithSimpleExpression()
         {
             // Arrange
             HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
-            
+
             // Act
             MvcHtmlString html = helper.TextBoxForNG(m => m.foo);
-            
+            var tt = html.ToHtmlString();
             // Assert
-            Assert.Equal(@"<input id=""foo"" name=""foo"" ng-model=""foo"" type=""text"" value=""ViewItemFoo"" />", 
-                html.ToHtmlString());
+            Assert.Equal(@"<input id=""foo"" name=""foo"" ng-model=""foo"" type=""text"" value=""ViewItemFoo"" />"
+                ,html.ToHtmlString());
         }
+
+        [Fact]
+        public void TextBoxForWithAttributesDictionary()
+        {
+            // Arrange
+            HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
+
+            // Act
+            MvcHtmlString html = helper.TextBoxForNG(m => m.foo, _attributesDictionary);
+
+            // Assert
+            Assert.Equal(@"<input baz=""BazValue"" id=""foo"" name=""foo"" ng-model=""foo"" type=""text"" value=""ViewItemFoo"" />", html.ToHtmlString());
+        }
+
+        //[Fact]
+        //public void TextBoxForWithAttributesObject()
+        //{
+        //    // Arrange
+        //    HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
+
+        //    // Act
+        //    MvcHtmlString html = helper.TextBoxFor(m => m.foo, _attributesObjectDictionary);
+
+        //    // Assert
+        //    Assert.Equal(@"<input baz=""BazObjValue"" id=""foo"" name=""foo"" type=""text"" value=""ViewItemFoo"" />", html.ToHtmlString());
+        //}
+
+        //[Fact]
+        //public void TextBoxForWithAttributesObjectWithUnderscores()
+        //{
+        //    // Arrange
+        //    HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
+
+        //    // Act
+        //    MvcHtmlString html = helper.TextBoxFor(m => m.foo, _attributesObjectUnderscoresDictionary);
+
+        //    // Assert
+        //    Assert.Equal(@"<input foo-baz=""BazObjValue"" id=""foo"" name=""foo"" type=""text"" value=""ViewItemFoo"" />", html.ToHtmlString());
+        //}
+
+        //[Fact]
+        //public void TextBoxForWithSimpleExpression_Unobtrusive()
+        //{
+        //    // Arrange
+        //    HtmlHelper<FooBarModel> helper = MvcHelper.GetHtmlHelper(GetTextBoxViewData());
+        //    helper.ViewContext.ClientValidationEnabled = true;
+        //    helper.ViewContext.UnobtrusiveJavaScriptEnabled = true;
+        //    helper.ViewContext.FormContext = new FormContext();
+        //    helper.ClientValidationRuleFactory = (name, metadata) => new[] { new ModelClientValidationRule { ValidationType = "type", ErrorMessage = "error" } };
+
+        //    // Act
+        //    MvcHtmlString html = helper.TextBoxFor(m => m.foo);
+
+        //    // Assert
+        //    Assert.Equal(@"<input data-val=""true"" data-val-type=""error"" id=""foo"" name=""foo"" type=""text"" value=""ViewItemFoo"" />", html.ToHtmlString());
+        //}
+
+
 
         // MODELS
         private class FooModel

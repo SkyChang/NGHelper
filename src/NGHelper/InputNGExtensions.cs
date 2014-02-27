@@ -10,7 +10,7 @@ using System.Web.Mvc.Html;
 
 namespace NGHelper
 {
-    public static class EditorNGExtensions
+    public static class InputNGExtensions
     {
         public static MvcHtmlString TextBoxForNG<TModel, TProperty>
               (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
