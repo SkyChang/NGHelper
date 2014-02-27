@@ -58,18 +58,32 @@ namespace NGHelper
                 switch (item.Key)
                 {
                     case "required":
+                        //Required
+                        htmlAttributes.Add("required", "required");
+                        break;
+                    case "minlength":
+                        //MinLength
+                        htmlAttributes.Add("ng-minlength", item.Value["min"]);
+                        break;
+                    case "maxlength":
+                        //MinLength
+                        htmlAttributes.Add("ng-maxlength", item.Value["max"]);
                         break;
                     case "length":
+                        //StringLength
                         if (item.Value.Keys.Contains("max")) htmlAttributes.Add("ng-maxlength", item.Value["max"]);
+                        //StringLength
                         if (item.Value.Keys.Contains("min")) htmlAttributes.Add("ng-minlength", item.Value["min"]);
                         break;
                     case "url":
+                        //url
                         htmlAttributes.Add("type", "url");
                         break;
                     case "number":
                         htmlAttributes.Add("type", "number");
                         break;
                     case "email":
+                        //EmailAddress
                         htmlAttributes.Add("type", "email");
                         break;
                     default:
@@ -77,7 +91,7 @@ namespace NGHelper
                 }
                 //ng-pattern="/a-zA-Z/"
             }
-            htmlAttributes.Add("ng-model", metadata.PropertyName);
+            //htmlAttributes.Add("ng-model", metadata.PropertyName);
             return htmlAttributes;
         }
     }

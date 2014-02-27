@@ -85,6 +85,8 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Util\MvcHelp.cs" />
+    <Compile Include="ValidationNGExtensionsTest.cs" />
     <Compile Include="InputNGExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

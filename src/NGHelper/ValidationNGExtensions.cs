@@ -17,33 +17,33 @@ namespace NGHelper
     {
 
         public static MvcHtmlString ValidationMessageForNg<TModel, TProperty>
-            (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression)
+            (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,string formName)
         {
-            return htmlHelper.ValidationMessageForNg<TModel, TProperty>(expression, ((object)null));
+            return htmlHelper.ValidationMessageForNg<TModel, TProperty>(expression, ((object)null), formName);
         }
 
         public static MvcHtmlString ValidationMessageForNg<TModel, TProperty>
             (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,
-            object htmlAttributes)
+            object htmlAttributes, string formName)
         {
             return htmlHelper.ValidationMessageForNg<TModel, TProperty>(expression,
-                ((IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes)));
+                ((IDictionary<string, object>)HtmlHelper.AnonymousObjectToHtmlAttributes(htmlAttributes)),formName);
         }
 
         public static MvcHtmlString ValidationMessageForNg<TModel, TProperty>
             (this HtmlHelper<TModel> htmlHelper, Expression<Func<TModel, TProperty>> expression,
-            IDictionary<string, object> htmlAttributes)
+            IDictionary<string, object> htmlAttributes,string formName)
         {
             ModelMetadata metadata = ModelMetadata.FromLambdaExpression(expression, htmlHelper.ViewData);
             var name = ExpressionHelper.GetExpressionText(expression);
 
-            return ValidationMessageNgHelper(htmlHelper, metadata, name, htmlAttributes);
+            return ValidationMessageNgHelper(htmlHelper, metadata, name, htmlAttributes,formName);
         }
 
 
         private static MvcHtmlString ValidationMessageNgHelper(
             HtmlHelper htmlHelper, ModelMetadata metadata, 
-            string name, IDictionary<string, object> htmlAttributes)
+            string name, IDictionary<string, object> htmlAttributes,string formName)
         {
             string fullName = htmlHelper.ViewContext.ViewData.TemplateInfo.GetFullHtmlFieldName(name);
             if (String.IsNullOrEmpty(fullName))
@@ -53,7 +53,7 @@ namespace NGHelper
 
             TagBuilder divTagBuilder = new TagBuilder("div");
             divTagBuilder.MergeAttributes(htmlAttributes);
-            divTagBuilder.MergeAttribute("ng-show", string.Format("signup_form.{0}.$dirty && signup_form.Subject.$invalid", fullName));
+            divTagBuilder.MergeAttribute("ng-show", string.Format("{0}.{1}.$dirty && {0}.{1}.$invalid", formName, fullName));
             divTagBuilder.AddCssClass("error");
 
             var validations = ModelValidatorProviders.Providers.GetValidators
@@ -71,24 +71,24 @@ namespace NGHelper
                 {
 
                     case "required":
-                        smallTagBuilder.MergeAttribute("ng-show", string.Format("signup_form.{0}.$error.required", fullName));
+                        smallTagBuilder.MergeAttribute("ng-show", string.Format("{0}.{1}.$error.required", formName, fullName));
                         smallTagBuilder.SetInnerText(item.Value);
                         break;
                     case "length":
                         smallTagBuilder.MergeAttribute("ng-show",
-                            string.Format("signup_form.{0}.$error.minlength || signup_form.{0}.$error.maxlength", fullName));
+                            string.Format("{0}.{1}.$error.minlength || {0}.{1}.$error.maxlength", formName, fullName));
                         smallTagBuilder.SetInnerText(item.Value);
                         break;
                     case "url":
-                        smallTagBuilder.MergeAttribute("ng-show", string.Format("signup_form.{0}.$error.url", fullName));
+                        smallTagBuilder.MergeAttribute("ng-show", string.Format("{0}.{1}.$error.url", formName, fullName));
                         smallTagBuilder.SetInnerText(item.Value);
                         break;
                     case "number":
-                        smallTagBuilder.MergeAttribute("ng-show", string.Format("signup_form.{0}.$error.number", fullName));
+                        smallTagBuilder.MergeAttribute("ng-show", string.Format("{0}.{1}.$error.number", formName, fullName));
                         smallTagBuilder.SetInnerText(item.Value);
                         break;
                     case "email":
-                        smallTagBuilder.MergeAttribute("ng-show", string.Format("signup_form.{0}.$error.email", fullName));
+                        smallTagBuilder.MergeAttribute("ng-show", string.Format("{0}.{1}.$error.email", formName, fullName));
                         smallTagBuilder.SetInnerText(item.Value);
                         break;
                     default:
